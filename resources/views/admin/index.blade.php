@@ -23,7 +23,7 @@
                     <div class="min-w-[100px]">
                         <select name="gender"
                             class="w-full px-4 py-2 bg-white border border-[#ddd8d3] rounded text-[#9a938c] focus:outline-none focus:border-amber-500">
-                            <option value="0" {{ request('gender') == '0' || !request('gender') ? 'selected' : '' }}>性別</option>
+                            <option value="">性別</option>
                             <option value="1" {{ request('gender') == '1' ? 'selected' : '' }}>男性</option>
                             <option value="2" {{ request('gender') == '2' ? 'selected' : '' }}>女性</option>
                             <option value="3" {{ request('gender') == '3' ? 'selected' : '' }}>その他</option>
