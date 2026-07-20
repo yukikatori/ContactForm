@@ -2,7 +2,10 @@
 FROM php:8.2-apache
 
 # 必要な拡張をインストール
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apt-get update && apt-get install -y \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
 # Apache の rewrite モジュールを有効化
 RUN a2enmod rewrite
@@ -17,6 +20,9 @@ WORKDIR /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
+# Composer 実行時に root 警告を無視
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # 依存関係をインストール（本番用）
 RUN composer install --no-dev --optimize-autoloader
 
@@ -28,3 +34,4 @@ EXPOSE 80
 
 # Apache 起動
 CMD ["apache2-foreground"]
+
