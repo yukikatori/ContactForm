@@ -44,28 +44,28 @@ class Contact extends Model
         return $this->belongsToMany(Tag::class, 'contact_tag')->withTimestamps();
     }
 
-    // public function scopeFilter($query, array $filters)
-    // {
-    //     if (! empty($filters['keyword'])) {
-    //         $query->where(function ($q) use ($filters) {
-    //             $q->where('first_name', 'like', "%{$filters['keyword']}%")
-    //                 ->orWhere('last_name', 'like', "%{$filters['keyword']}%")
-    //                 ->orWhere('email', 'like', "%{$filters['keyword']}%");
-    //         });
-    //     }
+    public function scopeFilter($query, array $filters)
+    {
+        if (! empty($filters['keyword'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('first_name', 'like', "%{$filters['keyword']}%")
+                    ->orWhere('last_name', 'like', "%{$filters['keyword']}%")
+                    ->orWhere('email', 'like', "%{$filters['keyword']}%");
+            });
+        }
 
-    //     if (! empty($filters['gender'])) {
-    //         $query->where('gender', $filters['gender']);
-    //     }
+        if (! empty($filters['gender'])) {
+            $query->where('gender', $filters['gender']);
+        }
 
-    //     if (! empty($filters['category_id'])) {
-    //         $query->where('category_id', $filters['category_id']);
-    //     }
+        if (! empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
 
-    //     if (! empty($filters['date'])) {
-    //         $query->whereDate('created_at', $filters['date']);
-    //     }
+        if (! empty($filters['date'])) {
+            $query->whereDate('created_at', $filters['date']);
+        }
 
-    //     return $query;
-    // }
+        return $query;
+    }
 }
