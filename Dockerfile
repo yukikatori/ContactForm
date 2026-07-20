@@ -1,13 +1,18 @@
 FROM php:8.2-apache
 
+# キャッシュ無効化用ダミー変数
+ARG CACHEBUST=1
+
 # 必要な拡張をインストール
 RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
     && docker-php-ext-install pdo pdo_mysql zip
 
-# Apache の MPM 設定を修正
-RUN a2dismod mpm_event && a2dismod mpm_worker && a2enmod mpm_prefork && a2enmod rewrite
+# Apache の MPM 設定を完全リセット
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.load && \
+    a2dismod mpm_event && a2dismod mpm_worker && \
+    a2enmod mpm_prefork && a2enmod rewrite
 
 # プロジェクトファイルをコピー
 COPY . /var/www/html
