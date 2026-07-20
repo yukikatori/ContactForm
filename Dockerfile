@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql zip
 
 # Apache の rewrite モジュールを有効化
-RUN a2enmod rewrite
+RUN a2dismod mpm_event && a2enmod mpm_prefork && a2enmod rewrite
 
 # プロジェクトファイルをコピー
 COPY . /var/www/html
@@ -34,4 +34,3 @@ EXPOSE 80
 
 # Apache 起動
 CMD ["apache2-foreground"]
-
